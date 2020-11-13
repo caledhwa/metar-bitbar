@@ -1,6 +1,8 @@
 # metar-bitbar
 A MacOSX Bitbar for Metars
 
+![Screenshot](screenshot1.png)
+
 Bitbar is a pretty great and kinda finicky platform for adding menu items to Mac OSX. As a student pilot, I really wanted a great METAR menu that gives me some visual cues to the current condition of my own airport and a easy way to add additional airports using JavaScript. There's already a METAR plugin out there, but written in Ruby which is also finicky and I wanted something easy to modify. The code sucks - for gosh sakes, this is just a fun project for me to help me with my student pilotage. Enjoy, feel free to modify and hopefully my instructions are good. I'll take ANY enhancements, and if you find a bug or something that could make it better, instead of reporting it, create a PR. JavaScript is easy - no excuse to ask me to fix it. It's one file of code, for gosh sakes.
 
 ## Installation
@@ -17,6 +19,8 @@ You will end up placing this file in the BitBar folder. After installing BitBar,
 
 ### Sign up for an account at `https://avwx.rest/`
 
+![Screenshot](screenshot2.png)
+
 AVWX REST API is a website to deliver JSON output of weather information. There are free and professional tiers. This BitBar only requires the free tier, however, you need to sign up for an account. Additionally, that account will need a token.
 
 1. Navigate to `https://avwx.rest/`
@@ -26,6 +30,7 @@ AVWX REST API is a website to deliver JSON output of weather information. There 
 5. Log Into Your Account (note you probably need to verify the account through e-mail).
 6. Confirm that it has you set up for **Hobby** level (FREE).
 7. Under TOKENS: click the `+` key and a token will be created.
+![Screenshot](screenshot3.png)
 8. Copy the created token. You will use this **token** in the JavaScript file. Example token: `p6gZKCQCZo4fSUfgimKWa3sLFWLH27oBS5sy_999999`
 
 ### Copy and Prep the `aweather.5m.js` file.
