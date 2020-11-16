@@ -35,12 +35,17 @@ const { utcToZonedTime, format } = require('date-fns-tz');
     return `${preText || ''}${val.repr}${postText || ''}`;
   }
 
+  const value = (val, preText, postText) => {
+    if (!val) return '';
+    return `${preText || ''}${val.value}${postText || ''}`;
+  }
+
   const bitbars = weathers.map((airport) => {
 
-    let cloudCeiling = '';
+    let cloudCeiling = ' ';
     airport.clouds.some(cloud => {
       if (cloud.type === 'BKN' || cloud.type === 'OVC') {
-        cloudCeiling = cloud.repr;
+        cloudCeiling = ' ' + cloud.repr + ' ';
         return true;
       }
     });
@@ -51,7 +56,7 @@ const { utcToZonedTime, format } = require('date-fns-tz');
     const pacificDate = format(zonedDate, pattern, { timeZone });
 
     const val = {
-      text: `${airport.station} ${airport.flight_rules} ${cloudCeiling} ${repr(airport.time)}`,
+      text: `${airport.station} ${airport.flight_rules}${cloudCeiling}${repr(airport.time)}`,
       font: 'Operator Mono Bold',
       size: '17'
     };
@@ -63,12 +68,14 @@ const { utcToZonedTime, format } = require('date-fns-tz');
         val.color = '#0000FF';
         break;
       case 'IFR':
-        val.color = '#DF00FE';
+        val.color = '#FF0000';
         break;
       case 'LIFR':
-        val.color = '#FF00FF';
+        val.color = '#DF00FE';
         break;
     }
+
+    let wind = `${repr(airport.wind_direction)} @ ${repr(airport.wind_speed)}kts ${repr(airport.wind_gusts, 'G')}`;
 
     const cloudMap = airport.clouds.map((cloud) => (
       {
@@ -78,6 +85,15 @@ const { utcToZonedTime, format } = require('date-fns-tz');
         size: '17'
       }));
 
+    const wx_codes = airport.wx_codes.map(code => (
+      {
+        text: `${value(code)}`,
+        color: val.color,
+        font: 'Operator Mono Bold',
+        size: '17'
+      }
+    ));
+
     val.submenu = [
       {
         text: `Visibility: ${repr(airport.visibility)}SM`,
@@ -86,12 +102,13 @@ const { utcToZonedTime, format } = require('date-fns-tz');
         size: '17'
       },
       {
-        text: `Wind: ${repr(airport.wind_direction)} @ ${repr(airport.wind_speed)}kts ${repr(airport.wind_gusts, 'G')}`,
+        text: `Wind: ${wind}`,
         color: '#FFFFFF',
         font: 'Operator Mono Bold',
         size: '17'
       },
       ...cloudMap,
+      ...wx_codes,
       {
         text: `Temp: ${repr(airport.temperature)}/${repr(airport.dewpoint)}`,
         color: '#FFFFFF',
